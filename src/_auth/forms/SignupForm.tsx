@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast"
 
 
@@ -13,7 +13,8 @@ import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "../../components/shared/Loader";
-import { createUserAccount } from "@/lib/appwrite/api";
+import { userCreateUserAccount, userSignInAccount } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 
 
 
@@ -21,7 +22,12 @@ import { createUserAccount } from "@/lib/appwrite/api";
 const SignupForm = () => {
 
   const { toast } = useToast();
-  const isLoading = false;
+  const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
+  const navigate = useNavigate();
+
+  const {mutateAsync: createUserAccount, isPending: isCreatingAccount} = userCreateUserAccount();
+
+  const { mutateAsync: signInAccount, isPending: isSigningIn } = userSignInAccount();
 
 
   const form = useForm<z.infer<typeof SignupValidation>>({
@@ -33,6 +39,8 @@ const SignupForm = () => {
       password: ""
     },
   })
+
+  
  
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof SignupValidation>) {
@@ -44,7 +52,24 @@ const SignupForm = () => {
       })
     }
 
-    // const session = await signInAccount();
+    const session = await signInAccount({
+      email: values.email,
+      password: values.password,
+    });
+
+    if(!session){
+      return toast({ title: 'Sign in failed. Please try again.'})
+    }
+
+    const isLoggedIn = await checkAuthUser();
+
+    if(isLoggedIn) {
+      form.reset();
+      navigate('/');
+    }else{
+      return toast ({title: 'Sign up failed. Please try again.'})
+    }
+
   }
 
   return (
@@ -111,7 +136,7 @@ const SignupForm = () => {
             )}
           />
           <Button type="submit" className="shad-button_primary">
-            {isLoading ? (
+            {isCreatingAccount ? (
               <span className="flex-center gap-2" ><Loader/> Loading...</span> 
             ): "Sign up"}
           </Button>
