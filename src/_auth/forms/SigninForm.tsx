@@ -65,7 +65,7 @@ const SigninForm = () => {
     <Form {...form}>
       <div className="sm:w-420 flex-center flex-col">
         <div className="flex justify-center items-center gap-4">
-          <img className="rounded-full w-10" src="/assets/images/luffyLogo.jpg" alt="logo" />
+          <img className="rounded-full h-8 w-8" src="/assets/images/luffyLogo.jpg" alt="logo" />
           <span className="text-xl">Animegram</span>
         </div>
         <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Login to your account</h2>
