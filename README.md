@@ -1,5 +1,5 @@
-# AnimeGram
-AnimeGram is a social media platform designed for anime lovers to share their favorite moments, discuss episodes, and connect with fellow fans in a vibrant community. With a sleek and intuitive interface reminiscent of Instagram, AnimeGram provides a familiar experience with a focus on anime-centric content.
+# [AnimeGram](https://anime-gram.netlify.app)
+AnimeGram is a social media platform designed for anime lovers to share their favorite moments, discuss episodes, and connect with fellow fans in a vibrant community. With a sleek and intuitive interface reminiscent of Instagram, AnimeGram provides a familiar experience with a focus on anime-centric content. [Click here to visit](https://anime-gram.netlify.app)
 
 
 # Features
